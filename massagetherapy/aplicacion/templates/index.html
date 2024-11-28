@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massage Theraphy - {% block titulo %}{% endblock %}</title>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/alertas.js' %}"></script>
+    <link rel="stylesheet" href="{% static '../static/css/index.css' %}">
+    <link href="{% static '../static/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static '../static/js/bootstrap.bundle.min.js' %}">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+<body id="body">
+
+<header id="navbar">
+    <nav class="navbar navbar-expand-lg ">
+        <div id="contentNav" class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="btn">
+                    <button id="btnIni" type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#loginModal">Iniciar sesion
+                    </button>
+                </div>
+                <div class="btn">
+                    <button id="btnREg" data-bs-toggle="modal" class="btn btn-primary"
+                            data-bs-target="#registroUsuario">Regístrate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid">
+            <div id="logoCont">
+                <a class="navbar-brand" href="{% url 'index' %}"><img id="logo" src="{% static '../static/img/logo.png' %}"></a>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <div id="navCont">
+                        <a class="nav-link" href="#"><strong>Quienes somos</strong></a>
+                    </div>
+                    <div id="navCont">
+                        <a class="nav-link"  href="{% url 'servicios' %}"><strong>Servicios</strong></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<div id="alertContainer"></div>
+
+<!--Modal Iniciar Sesion-->
+<div class="modal fade slide-up" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div id="modalColor" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Inicio de Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="formModal" action="{% url 'login' %}" method="post" id="formLogin">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label id="identification" class="form-label">Identificación</label>
+                        <input required type="text" class="form-control" name="identification" placeholder="Identificación">
+                    </div>
+                    <div class="mb-3">
+                        <label id="clave" class="form-label">Contraseña</label>
+                        <input required type="password" class="form-control" name="clave" placeholder="Clave">
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <button id="btnIni" role="button" class="btn btn-primary" type="submit">Iniciar sesión</button>
+                        <a id="btnREg" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registroUsuario">Regístrate</a>
+                    </div>
+                    <div class="text-center mt-3" >
+                        <a  href="{% url 'recuperar_clave_form' %}">Olvidé mi contraseña</a><br>
+                    </div>
+                </form>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal iniciar sesion Final-->
+
+
+<!--Modal registrar usuario NO SEGURIDAD-->
+<div class="modal fade slide-up" id="registroUsuario">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Registro</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form  method="post" id="formRegistrar" class="formModal" enctype="multipart/form-data" action="{% url 'registrar_usuario' %}">
+                    {% csrf_token %}
+                    <div class="mb-3 mt-3">
+                        <span for="correo" class="form-label">Correo:</span>
+                        <input required type="email" class="form-control" placeholder="Ingrese correo electrónico" name="email" required>
+                    </div>
+                    <div class="text-center">
+                        <button id="btnReg" type="submit" class="btn btn-success">Registrarse</button>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-evenly">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% if messages %}
+<div class="alert-overlay"></div> <!-- Fondo oscuro -->
+<div class="alert-container">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags and message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show text-center"
+        style="max-width: 600px; margin: auto;" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!--Modal registrar usuario NO SEGURIDAD Final-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const alertOverlay = document.querySelector('.alert-overlay'); // Selecciona el overlay
+        const alerts = document.querySelectorAll('.alert'); // Selecciona todas las alertas
+
+        if (alertOverlay && alerts) {
+            // Mostrar el overlay cuando hay mensajes
+            alertOverlay.style.opacity = '1';
+            alertOverlay.style.pointerEvents = 'auto';
+
+            // Agregar un listener a cada alerta para detectar cuando se cierre
+            alerts.forEach(alert => {
+                alert.addEventListener('closed.bs.alert', () => {
+                    // Verificar si hay más alertas visibles
+                    const remainingAlerts = document.querySelectorAll('.alert.show');
+                    if (remainingAlerts.length === 0) {
+                        // Ocultar el overlay si no hay más alertas visibles
+                        alertOverlay.style.opacity = '0';
+                        alertOverlay.style.pointerEvents = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+<main class="seccionGeneral">
+<!-- <img src="{% static '../static/img/limpieza-Facial.jpg' %}" alt=""> -->
+
+    <section class="seccionGeneral" id="seccion1">
+        <div id="contenido1">
+            <article class="art1">
+                <img id="img1" src="{% static '../static/img/dolor-de-cuello.jpg' %}" alt="">
+            </article>
+            <article class="art1" id="art2">
+                <p>
+                <h2>Resuelve de inmediato ese dolor que le atormenta!!!</h2> <br>
+                <h1>Diagnóstico inicial totalmente Gratis</h1>
+                </p>
+                <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        id="btnSolicitar"> Solicitar
+                </button>
+            </article>
+
+        </div>
+        <div class="barra">
+            <h1><strong>Nuestros servicios</strong></h1>
+        </div>
+    </section>
+    <section id="seccion2" class="seccionGeneral">
+        <div id="contenido2">
+            <div>
+                <img class="img1sec2" src=" {% static '../static/img/masaje-relajacion.jpg' %}" alt="">
+                <h2 class="titu">Masaje de Relajacion</h2>
+                <p class="textCont2">Técnica Indu donse no solo liberas tus musculos de tensión, tambien liberas tu
+                    cuerpo de energias pesadas.</p>
+            </div>
+            <div>
+                <img class="img1sec2" src="{% static '../static/img/limpieza-Facial.jpg' %}" alt="">
+                <h2 class="titu">Limpieza facial profunda</h2>
+                <p class="textCont2">Limpieza delicada, donde se busca renovación de piel y donde al mismo tiempo se
+                    hidrata y nutre la misma</p>
+            </div>
+        </div>
+        <div id="contenido2">
+            <div class="cont2">
+                <img class="img1sec2" src="{% static '../static/img/masaje-deportivo.jpg' %}" alt="">
+                <h2 class="titu">Masaje deportivo</h2>
+                <p class="textCont2">Reconstruccion de fibras musculares</p>
+            </div>
+            <div class="cont2">
+                <img class="img1sec2" src="{% static '../static/img/masaje-limpieza.jpg' %}" alt="">
+                <h2 class="titu">Masaje antienvejecimiento</h2>
+                <p class="textCont2">Enfocado en eliminar toxinas y en reparación de tonicidad.</p>
+            </div>
+            <div class="cont2">
+                <img class="img1sec2" src="{% static '../static/img/dolor-muscular.jpg' %}" alt="">
+                <h2 class="titu">Dolor muscular</h2>
+                <p class="textCont2">Enfocado en recuperación nerviosa y estructural.</p>
+            </div>
+        </div>
+
+    </section>
+    <div class="barra"></div>
+    <section class="seccionGeneral">
+        <div id="contenido2">
+            <div class="cuadros">
+                <h2>
+                    Espasmos
+                </h2>
+                <p class="cuadroText">
+
+                    Nuestro equipo de espcialistas, en masoterapia reestructural, resuelven este tipo de problema
+                    muscular que impiden la movilidad al 100%. <br><br>
+                    Solucione su problema con una garantia de un 90% sobre su tto.
+                </p>
+                <button id="btnIni" class="btn btn-outline-dark" type="submit"><a id="btnIni" href="#">Saber
+                    mas -></a></button>
+            </div>
+            <div class="cuadros">
+                <p><img class="imgCuadros" src="{% static '../static/img/espasmos.png' %}" alt=""></p>
+            </div>
+        </div>
+        <div id="contenido2">
+            <div class="cuadros">
+                <p><img class="imgCuadros" src="{% static '../static/img/articulaciones.jpg' %}" alt=""></p>
+            </div>
+            <div class="cuadros">
+                <h2>Dolor de articulaciones</h2>
+                <p class="cuadroText">Hay que descubrir cuál es la verdadera razón de su molestia. <br><br>
+                    Realiza el diagnóstico GRATIS, descubre el tto adecuado para ti. <br><br>
+                    vuelve a VIVIR sin DOLOR !
+                </p>
+                <button id="btnIni" class="btn btn-outline-dark" type="submit"><a id="btnIni" href="#">Saber mas -></a>
+                </button>
+
+            </div>
+        </div>
+    </section>
+    <section class="seccionGeneral">
+        <div class="barra">
+            <h1><strong>!Testimonios¡</strong></h1>
+        </div>
+        <div id="contenido4">
+            <div>
+                <h2>Amamos estas personas!</h2>
+            </div>
+            <div id="contenido2">
+                <div class="cuadros">
+                    <p class="cuadroText2">"Solo ustedes lograron solucionar mi dolor de espalda. ¡Soy feliz!"</p>
+
+                </div>
+                <div class="cuadros">
+                    <p class="cuadroText2">"Excelente atención y servicio, no entiendo como no los encontré antes !"</p>
+                </div>
+                <div class="cuadros">
+                    <p class="cuadroText2">"Después de conocerlos, pude entender la felicidad de no tener ningún
+                        dolor."</p>
+                </div>
+            </div>
+            <div class="contenido5">
+                <div>
+                    <article>
+                        <ul class="list-unstyled d-flex">
+                            <li class="iconMarg2">
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+                <div>
+                    <article>
+                        <ul class="list-unstyled d-flex">
+                            <li class="iconMarg2">
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+                <div>
+                    <article>
+                        <ul class="list-unstyled d-flex">
+                            <li class="iconMarg2">
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                                <a class="iconMarg2" href=""><i class="bi bi-star-fill"></i></a>
+                            </li>
+                        </ul>
+                    </article>
+                </div>
+
+            </div>
+            <div id="contenido6" class="contenido5">
+                <div><span>Valeria Montes</span></div>
+                <div><span>Gabriel Alzate</span></div>
+                <div><span>Camila Arias</span></div>
+            </div>
+
+        </div>
+    </section>
+</main>
+<footer class="foot pt-2">
+    <div id="footGround">
+        <div class="contenido3">
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Ubicacion</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Encuentranos justo
+                        aqui:</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img id="maps"
+                                                                                               src="{% static '../static/img/maps.jpg' %}"
+                                                                                               alt=""></a></li>
+
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Servicios</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje de Relajacion</a>
+                    </li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje muscular</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje articular</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje de recuperación</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Nosotros</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Terminos</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Condiciones</a></li>
+
+                </ul>
+            </div>
+
+            <div class="col-md-5  mb-3">
+                <form>
+                    <h3><strong>Contáctanos</strong></h3>
+                    <p>Déjanos tu correo electrónico y nos comunicaremos contigo.</p>
+                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                        <label for="newsletter1" class="visually-hidden">Correo electronico</label>
+                        <input id="newsletter1" type="text" class="form-control" placeholder="Correo electronico">
+                        <button id="btnREg" class="btn btn-primary" type="button">Enviar</button>
+                    </div>
+                    <article id="correo"><span>massagetherapyitech@gmail.com</span></article>
+                </form>
+            </div>
+        </div>
+        <div id="iconoFinal">
+            <p>© 2023 Company, Inc. Todos los derechos reservados.</p>
+            <ul class="list-unstyled d-flex">
+                <li class="iconMarg">
+                    <a id="btnInsta" class="btn btn-primary rounded-circle " href=""><i
+                            class="bi bi-instagram"></i></a>
+                </li>
+                <li class="iconMarg">
+                    <a id="btnfacebook" class="btn btn-primary rounded-circle " href=""><i
+                            class="bi bi-facebook"></i></a>
+                </li>
+                <li class="iconMarg">
+                    <a id="btnWpp" class="btn btn-primary rounded-circle " href=""><i
+                            class="bi bi-whatsapp"></i></a>
+                </li>
+                <li class="iconMarg">
+                    <a id="btnTwitter" class="btn btn-primary rounded-circle" href=""><i
+                            class="bi bi-twitter"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

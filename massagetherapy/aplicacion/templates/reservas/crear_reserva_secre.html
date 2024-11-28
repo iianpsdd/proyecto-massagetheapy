@@ -1,0 +1,82 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Crear Reserva{% endblock %}
+
+{% block principal %}
+<main class="background-image">
+    <div class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow border-1">
+                    <div class="container">
+                        <div id="btitulo" class="card mb-4">
+                            <h2 class="text-center">Crear Reserva para Usuario</h2>
+                        </div>
+                        <div id="error-message" class="alert alert-danger"
+                            style="display: {% if error_message %}block{% else %}none{% endif %};">
+                            {{ error_message }}
+                        </div>
+
+                        <form id="buscarUsuarioForm" method="GET" action="{% url 'buscar_usuarioSecre' %}">
+                            {% csrf_token %}
+                            <div class="mt-5 mb-3">
+                                <label for="identificacion" class="form-label">Identificación del Usuario</label>
+                                <input type="text" class="form-control" id="identificacion" name="username" required
+                                    value="{{ identificacion }}" oninput="storeIdentification()">
+                                <button type="submit" class="btn btn-primary mt-3">Buscar Usuario</button>
+                            </div>
+                        </form>
+
+                        <!-- Formulario de reserva, solo visible si se encuentra el usuario -->
+                        {% if usuario %}
+                        <form id="crearReservaForm" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="identificacion" id="identificacionHidden"
+                                value="{{ usuario.username }}">
+
+                            <div class="mb-3">
+                                Identificación Consultada:
+                                <div><strong>{{ usuario.username }}</strong></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="servicio" class="form-label">Seleccionar Servicio</label>
+                                <select class="form-select" id="servicio" name="servicio" required>
+                                    {% for servicio in servicios %}
+                                        <option value="{{ servicio.id }}" {% if servicio.id == servicio_seleccionado %}selected{% endif %}>{{ servicio.nombreServicio }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="fecha" class="form-label">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha" required min="{{ today|date:'YYYY-MM-DD' }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="hora" class="form-label">Hora</label>
+                                    <select id="hora2" class="form-select" required>
+                                        <option value="" disabled selected>Selecciona una hora</option>
+                                        <option value="08:00 AM">08:00 AM</option>
+                                        <option value="09:00 AM">09:00 AM</option>
+                                        <option value="10:00 AM">10:00 AM</option>
+                                        <option value="11:00 AM">11:00 AM</option>
+                                        <option value="12:00 PM">12:00 PM</option>
+                                        <option value="01:00 PM">01:00 PM</option>
+                                        <option value="02:00 PM">02:00 PM</option>
+                                        <option value="03:00 PM">03:00 PM</option>
+                                        <option value="04:00 PM">04:00 PM</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Reservar</button>
+                            </div>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="{% static 'js/reservas2.js' %}"></script>
+{% endblock %}

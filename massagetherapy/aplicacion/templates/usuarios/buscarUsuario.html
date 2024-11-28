@@ -1,0 +1,74 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Usuarios{% endblock %}
+
+{% block principal %}
+<main Class="background-image">
+  <div class="container mt-5 mb-4">
+    <div id="btitulo" class="card mb-4">
+      <h2 class="text-center">Buscar Usuarios</h2>
+    </div>
+    <div class="mb-4">
+      <div class="row justify-content-center">
+        <div id="btitulo" class="card border-1 p-3">
+          <form class="d-flex" role="search" action="{% url 'buscar' %}" method="post">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Buscar por nombre o descripción..."
+              aria-label="Search" name="dato_buscar">
+            <select class="form-control me-2" name="rol_filtrar">
+              <option value="">Filtrar por Rol</option>
+              <option value="ADMIN">Administrador</option>
+              <option value="ESPEC">Especialista</option>
+              <option value="SECRE">Secretaria</option>
+              <option value="USUAR">Cliente</option>
+            </select>
+            <button class="btn btn-success mx-2" type="submit">Buscar</button>
+            <button class="btn btn-danger" type="submit" href="{% url 'buscarUsuario' %}">Regresar</button>
+          </form>
+        </div>
+
+        <div class="tablaServicios table-responsive mt-4">
+          <table id="tablaUsuarios" class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Tipo de documento</th>
+                <th>Identificación</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+              </tr>
+              <br>
+            </thead>
+            <tbody>
+              {% for r in data %}
+              <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ r.nombre }}</td>
+                <td>{{ r.apellido }}</td>
+                <td>{{ r.tipo_documento }}</td>
+                <td>{{ r.username }}</td>
+                <td>{{ r.rol_alias }}</td>
+                <td>
+                  <a class="btn btn-warning" href="{% url 'usuario_editar' r.id %}"><i
+                    class="bi bi-pencil-square">Editar</i></a>
+                  <a class="btn btn-danger"  href="{% url 'eliminar_usuario' r.id %}"
+                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');"><i
+                    class="bi bi-trash">Eliminar</i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+
+    <br><br><br><br><br>
+</main>
+
+{% endblock %}

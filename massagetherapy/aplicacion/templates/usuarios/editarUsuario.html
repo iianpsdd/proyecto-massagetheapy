@@ -1,0 +1,118 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Actualizar Usuario{% endblock %}
+
+{% block principal %}
+<main Class="background-image">
+    <div class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow border-1">
+                    <div id="btitulo" class="card mt-5">
+                        <h2><strong>Editar Usuario</strong></h2>
+                    </div>
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <form action="{% url 'usuario_actualizar' %}" method="post" id="formRegistrar"
+                            enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ registro.id }}">
+
+                            <div class="form-group">
+                                <label for="">Nombre</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input type="text" class="form-control" placeholder="Nombres" name="nombre"
+                                        value="{{ registro.nombre }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Apellido</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input type="text" class="form-control" placeholder="Apellidos" name="apellido"
+                                        value="{{ registro.apellido }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Fecha de Nacimiento</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input type="date" class="form-control" placeholder="Fecha de Nacimiento"
+                                        name="fecha_nacimiento" value="{{ registro.fecha_nacimiento|date:'Y-m-d' }}">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="">Correo Electrónico</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input type="email" class="form-control" placeholder="Correo electrónico"
+                                        name="correo" value="{{ registro.email }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Tipo Identificación</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <select class="form-control" name="tipoIdentificacion" required>
+                                        <option value=""> - Selecciona - </option>
+                                        <option value="TI" {% if registro.tipo_documento == 'TI' %}selected{% endif %}>
+                                            Tarjeta de identidad</option>
+                                        <option value="CC" {% if registro.tipo_documento == 'CC' %}selected{% endif %}>
+                                            Cédula</option>
+                                        <option value="PA" {% if registro.tipo_documento == 'PA' %}selected{% endif %}>
+                                            Pasaporte</option>
+                                        <option value="CE" {% if registro.tipo_documento == 'CE' %}selected{% endif %}>
+                                            Cédula de extranjería</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Identificación</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input required type="text" class="form-control"
+                                        placeholder="Número de identificación" name="identificacion"
+                                        value="{{ registro.username }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Rol</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <select class="form-control" name="rol" required>
+                                        <option value=""> - Selecciona - </option>
+                                        <option value="ADMIN" {% if registro.rol == 'ADMIN' %}selected{% endif %}>
+                                            Administrador</option>
+                                        <option value="SECRE" {% if registro.rol == 'SECRE' %}selected{% endif %}>
+                                            Secretaria</option>
+                                        <option value="ESPEC" {% if registro.rol == 'ESPEC' %}selected{% endif %}>
+                                            Especialista</option>
+                                        <option value="USUAR" {% if registro.rol == 'USUAR' %}selected{% endif %}>Usuario
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Foto</label>
+                                <div class="input-group input-group-alternative mb-3">
+                                    <input type="file" name="foto" placeholder="Foto" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button id="btnReg" type="submit" class="btn btn-success mt-4">Guardar</button>
+                            </div>
+                            <div class="text-center">
+                                <a type="button" class="btn btn-danger mt-4"
+                                    href="{% url 'buscarUsuario' %}">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

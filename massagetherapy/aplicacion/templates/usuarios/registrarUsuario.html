@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massage Theraphy</title>
+    <link rel="stylesheet" href="{% static '../static/css/paginas.css' %}">
+    <script src="{% static 'js/alertas.js' %}"></script>
+    <link href="{% static '../static/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="{% static '../static/js/bootstrap.bundle.min.js' %}">
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+
+{% if messages %}
+<div class="alert-overlay"></div> <!-- Fondo oscuro -->
+<div class="alert-container">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags and message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show text-center"
+        style="max-width: 600px; margin: auto;" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<body>
+    <header class="headerSolo">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container d-flex justify-content-center">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    <img id="logo" src="{% static '../static/img/logo.png' %}" alt="">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="background-image">
+        <div class="mb-4 mt-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card shadow border-1">
+                        <div id="btitulo" class="card mt-5">
+                            <h2><strong>Registrate</strong></h2>
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <form action="{% url 'registrar_usuario_manual' %}" method="post" id="formRegistrar"
+                                enctype="multipart/form-data" autocomplete="off">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{ Usuario.id }}">
+
+                                <div class="form-group">
+                                    <label for="">Nombre</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombres" name="nombre"
+                                            value="{{ nombre }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Apellido</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="text" class="form-control" placeholder="Apellidos" name="apellido"
+                                            value="{{ apellido }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Fecha de Nacimiento</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="date" class="form-control" placeholder="Fecha de Nacimiento"
+                                            name="fecha_nacimiento" value="{{ fecha_nacimiento }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Correo Electrónico</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="email" class="form-control" placeholder="Correo electrónico"
+                                            name="correo" value="{{ correo }}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingrese un correo electrónico válido.">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Tipo Identificación</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <select class="form-control" name="tipoIdentificacion" required>
+                                            <option value=""> - Selecciona - </option>
+                                            <option value="TI" {% if tipoIdentificacion == 'TI' %}selected{% endif %}>
+                                                Tarjeta de identidad</option>
+                                            <option value="CC" {% if tipoIdentificacion == 'CC' %}selected{% endif %}>
+                                                Cédula</option>
+                                            <option value="PA" {% if tipoIdentificacion == 'PA' %}selected{% endif %}>
+                                                Pasaporte</option>
+                                            <option value="CE" {% if tipoIdentificacion == 'CE' %}selected{% endif %}>
+                                                Cédula de extranjería</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="identificacion">Identificación</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input required type="text" class="form-control"
+                                            placeholder="Número de identificación" name="identificacion" minlength="5"
+                                            maxlength="10" pattern="[0-9]*" title="Por favor ingrese solo números."
+                                            value="{{ identificacion }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display: none;">
+                                    <label for="rol">Rol</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="hidden" name="rol" value="USUAR"> <!-- Valor por defecto -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group focused">
+                                    <label for="">Contraseña</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="password" class="form-control" id="clave1" name="clave1"
+                                            placeholder="Contraseña" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group focused">
+                                    <label for="">Confirmar Contraseña</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="password" class="form-control" id="clave2" name="clave2"
+                                            placeholder="Confirmar contraseña" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Foto</label>
+                                    <div class="input-group input-group-alternative mb-3">
+                                        <input type="file" name="foto" placeholder="Foto" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button id="btnReg" type="submit" class="btn btn-success mt-4">Registrarse</button>
+                                </div>
+                                <div class="text-center">
+                                    <a type="button" class="btn btn-danger mt-4" href="{% url 'index' %}">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="foot pt-2">
+        <div id="footGround">
+            <div class="contenido3">
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Ubicacion</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Encuentranos justo
+                                aqui:</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted"><img id="maps"
+                                    src="{% static '../static/img/maps.jpg' %}" alt=""></a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Servicios</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje de Relajacion</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje muscular</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje articular</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Masaje de recuperación</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-2 mb-3">
+                    <h5>Nosotros</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Terminos</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Condiciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-5  mb-3">
+                    <form>
+                        <h3><strong>Contáctanos</strong></h3>
+                        <p>Déjanos tu correo electrónico y nos comunicaremos contigo.</p>
+                        <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                            <label for="newsletter1" class="visually-hidden">Correo electronico</label>
+                            <input id="newsletter1" type="text" class="form-control" placeholder="Correo electronico">
+                            <button class="btn btn-primary" type="button">Enviar</button>
+                        </div>
+                        <article id="correo"><span>massagetherapyitech@gmail.com</span></article>
+                    </form>
+                </div>
+            </div>
+
+            <div id="iconoFinal">
+                <p>© 2023 Company, Inc. Todos los derechos reservados.</p>
+                <ul class="list-unstyled d-flex">
+                    <li class="iconMarg">
+                        <a id="btnInsta" class="btn btn-primary rounded-circle " href=""><i
+                                class="bi bi-instagram"></i></a>
+                    </li>
+                    <li class="iconMarg">
+                        <a id="btnfacebook" class="btn btn-primary rounded-circle " href=""><i
+                                class="bi bi-facebook"></i></a>
+                    </li>
+                    <li class="iconMarg">
+                        <a id="btnWpp" class="btn btn-primary rounded-circle " href=""><i
+                                class="bi bi-whatsapp"></i></a>
+                    </li>
+                    <li class="iconMarg">
+                        <a id="btnTwitter" class="btn btn-primary rounded-circle" href=""><i
+                                class="bi bi-twitter"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

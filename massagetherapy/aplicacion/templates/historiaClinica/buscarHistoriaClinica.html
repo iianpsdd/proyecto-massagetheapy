@@ -1,0 +1,93 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block principal %}
+<main class="background-image">
+    <div class="container mt-5 text-center">
+        <div id="btitulo" class="card mb-4">
+            <h2>Buscar Identificación</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div id="btitulo" class="card border-1 p-3 mt-3">
+                <form id="buscar-form" action="{% url 'buscarIdentificacion' %}" method="get" class="d-flex">
+                    <div class="input-group me-2">
+                        <input type="text" class="form-control" placeholder="Número de identificación"
+                               name="identificacion" value="{{ identificacion_consultada }}" required>
+                        <input type="hidden" name="reserva_id" id="reserva_id" value="{{ reserva_id }}">
+                        <input type="hidden" name="fecha_reserva" id="fecha_reserva" value="{{ fecha_reserva }}">
+                        <button type="submit" class="btn btn-success">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mt-5 mb-4">
+            <p>Identificación consultada: <strong>{{ identificacion_consultada }}</strong></p>
+        </div>
+
+        <!-- Si ya hay historias clínicas, las muestra -->
+        {% if historias_clinicas %}
+        <div class="mt-5 mb-4">
+            <h3>Historial Clínico</h3>
+        </div>
+        <ul class="list-group mb-4">
+            {% for historia in historias_clinicas %}
+            <div class="mt-1 mb-2">
+                <li id="tarhistoria" class="list-group-item">
+                    <strong> Historia</strong> <!--{{ historia.id }}--> <br>
+                    <strong>Fecha:</strong> {{ historia.fecha }} <br>
+                    <strong>Paciente:</strong> {{ historia.paciente.nombre }} {{ historia.paciente.apellido }} <br>
+                    <strong><button class="btn btn-secondary">Historial médico:</button></strong> <br>{{ historia.observaciones }} <br>
+                    <strong><button class="btn btn-success">Motivo Consulta:</button></strong>  <br>{{ historia.diagnostico }} <br>
+                    <strong><button class="btn btn-warning">Tratamiento:</button></strong> <br>{{ historia.tratamiento }} <br>
+                    <strong><button class="btn btn-info">Evolución:</button></strong> <br>{{ historia.evolucion }} <br>
+                </li>
+            </div>
+            {% endfor %}
+        </ul>
+        
+        <!-- Botones para mostrar todas o mostrar última -->
+        <form id="mostrar-form" action="{% url 'buscarIdentificacion' %}" method="get">
+            <input type="hidden" name="identificacion" value="{{ identificacion_consultada }}">
+            <input type="hidden" name="reserva_id" id="reserva_id_mostrar" value="{{ reserva_id }}">
+            <input type="hidden" name="fecha_reserva" id="fecha_reserva_mostrar" value="{{ fecha_reserva }}">
+            {% if mostrar_todas %}
+            <!-- Si ya esta mostrando todas, mostrar el botón "Mostrar última" -->
+            <button type="submit" name="mostrar_todas" value="false" class="btn btn-danger mb-3">Última historia</button>
+            {% else %}
+            <!-- Si NO esta mostrando todas, mostrar el botón "Mostrar todas" solo si el paciente existe -->
+            <button type="submit" name="mostrar_todas" value="true" class="btn btn-warning mb-3">Mostrar todas</button>
+            {% endif %}
+        </form>
+
+        <!-- Mostrar el mensaje y botón solo si el paciente tiene identificación y no tiene historias clínicas -->
+        {% if historias_clinicas|length == 0 and identificacion_consultada %}
+            {% if mostrar_mensaje_creacion %}
+            <div class="alert alert-info">No se encontraron historias clínicas para esta identificación.</div>
+            <!-- Botón para crear una nueva historia clínica -->
+            {% if rol_usuario == 'ADMIN' or rol_usuario == 'ESPEC' %}
+            <a href="{% url 'crearHistoriaClinica' identificacion=identificacion_consultada %}" id="crear-historia-clinica" class="btn btn-success">
+                Crear Historia Clínica
+            </a>
+            {% endif %}
+            {% endif %}
+        {% endif %}
+
+        <!-- Si no se encontró la identificación, mostrar el error  -->
+        {% if not identificacion_consultada %}
+        <div class="alert alert-danger">Por favor, ingrese una identificación válida.</div>
+        {% endif %}
+        {% endif %}
+        {% if mostrar_mensaje_creacion %}
+        <div class="alert alert-info">No se encontraron historias clínicas para esta identificación.</div>
+        <!-- Botón para crear una nueva historia clínica -->
+        {% if rol_usuario == 'ADMIN' or rol_usuario == 'ESPEC' %}
+        <a href="{% url 'crearHistoriaClinica' identificacion=identificacion_consultada %}" id="crear-historia-clinica" class="btn btn-success">
+            Crear Historia Clínica
+        </a>
+        {% endif %}
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

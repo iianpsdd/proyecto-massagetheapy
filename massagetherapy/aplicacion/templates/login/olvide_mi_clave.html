@@ -1,0 +1,26 @@
+{% extends 'baseSinLogueo.html' %}
+{% load static %}
+
+{% block titulo %}Cambiar contraseña{% endblock %}
+
+{% block principal %}
+<main Class="background-image">
+    <div class="col-3 d-flex mb-4 mt-5 card p-3 m-auto mt-3">
+        <div id="btitulo" class="card mb-4">
+            <h2 class="text-center">Nueva Contraseña</h2>
+        </div>
+        <form action="{% url 'olvide_mi_clave' email %}" method="post">
+            {% csrf_token %}
+            <label>Nueva Clave</label><br>
+            <input type="password" required="" name="nueva1" class="form-control"><br>
+            <label>Repetir Clave</label><br>
+            <input type="password" required="" name="nueva2" class="form-control"><br>
+        
+            <button type="submit" class=" btn btn-success">Guardar</button><br>
+            <a href="{% url 'index' %}" class="mt-3 btn btn-danger">Cancelar</a><br>
+        </form>
+    </div>
+</main>
+{% endblock %}
+
+

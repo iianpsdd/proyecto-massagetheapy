@@ -1,0 +1,121 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block principal %}
+
+<style>
+    .restricciones-reserva {
+        background-color: rgb(90 211 186)!important;
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        top: 20px;
+    }
+
+    .restricciones-reserva h4 {
+        color: white;
+        text-align: center;
+        margin-bottom: 15px;
+        
+    }
+
+    .restricciones-reserva ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .restricciones-reserva li {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .restricciones-reserva li strong {
+        font-weight: bold;
+    }
+</style>
+<main class="background-image">
+    <section>
+        <div class="container mt-5">
+            <div id="btitulo" class="card mb-4">
+                <h2 class="text-center">Servicios</h2>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="restricciones-reserva">
+                        <h4><strong>¡Gracias por reservar con nosotros!</strong></h4>
+                        <ul>
+                            <li><strong>Reserva para el futuro:</strong> Selecciona una fecha y hora después de este momento.</li>
+                            <li><strong>Planifica con anticipación:</strong> Por favor, reserva con al menos 2 horas de antelación.</li>
+                            <li><strong>Disponibilidad:</strong> Verifica que el horario seleccionado esté libre. Si ya hay otra reserva, deberas verificar otras opciones disponibles.</li>
+                            <li><strong>Cancelación:</strong> Para modificar o cancelar tu reserva, por favor, hazlo con al menos 2 horas de anticipación.</li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="row">
+                        {% for servicio in servicios %}
+                        <div class="col-md-4 mb-4">
+                            <div id="creserva" class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ servicio.nombreServicio }}</h5>
+                                    <p class="card-text">{{ servicio.descripcion }}</p>
+                                    <p class="card-text"><strong>Especialista:</strong> {{ servicio.nombreEspecialista }}</p>
+                                    <p class="card-text"><strong>Precio:</strong> ${{ servicio.precio }}</p>
+                                    <button class="btn btn-success reservar" data-servicio-id="{{ servicio.id }}">Reservar cita</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para Reservar -->
+    <div class="modal fade" id="fechaHoraModal" tabindex="-1" aria-labelledby="fechaHoraModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fechaHoraModalLabel">Reservar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formReserva">
+                        <div class="mb-3">
+                            <label for="fecha" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="fecha" required min="{{ today|date:'YYYY-MM-DD' }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="hora" class="form-label">Hora</label>
+                            <select id="hora2" class="form-select" required>
+                                <option value="" disabled selected>Selecciona una hora</option>
+                                <option value="08:00 AM">08:00 AM</option>
+                                <option value="09:00 AM">09:00 AM</option>
+                                <option value="10:00 AM">10:00 AM</option>
+                                <option value="11:00 AM">11:00 AM</option>
+                                <option value="12:00 PM">12:00 PM</option>
+                                <option value="01:00 PM">01:00 PM</option>
+                                <option value="02:00 PM">02:00 PM</option>
+                                <option value="03:00 PM">03:00 PM</option>
+                                <option value="04:00 PM">04:00 PM</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Reservar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="{% static 'js/reservas.js' %}"></script>
+{% endblock %}
+
+

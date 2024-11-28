@@ -1,0 +1,59 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Editar Servicio{% endblock %}
+
+{% block principal %}
+<main class="background-image">
+    <div class="mb-4 mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow border-1">
+                    <div id="btitulo" class="card mt-5">
+                        <strong><h2 class="text-center">Editar Servicio</h2></strong>
+                    </div>
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <form class="text-center tarService form-data mb-2" id="editarServicioForm">
+                            <div class="form-group mb-2">
+                                <label for="nombreServicio">Nombre del Servicio</label>
+                                <input type="text" id="nombreServicio" class="form-control"
+                                    value="{{ servicio.nombreServicio }}" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" class="form-control"
+                                    rows="5" required>{{ servicio.descripcion }}</textarea>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="nombreEspecialista">Nombre del Especialista</label>
+                                <select id="nombreEspecialista" class="form-control" required>
+                                    <option value=""> - Seleccione un especialista - </option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="precio">Precio</label>
+                                <input type="number" id="precio" class="form-control"
+                                    value="{{ servicio.precio }}" required min="100" title="El precio no puede ser negativo."">
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" id="guardarBtn" class="btn btn-success"
+                                    data-servicio-id="{{ servicio.id }}">Guardar</button>
+                            </div>
+                            <div>
+                                <a href="{% url 'buscarServicio' %}" class="btn btn-danger">Cancelar</a>
+                            </div>
+                        </form>
+
+                        <!-- Mensajes de éxito o error -->
+                        <div id="mensajeExito" class="alert alert-success mt-3" style="display:none;">¡Servicio actualizado exitosamente!</div>
+                        <div id="mensajeError" class="alert alert-danger mt-3" style="display:none;">Hubo un error al actualizar el servicio.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="{% static 'js/funcionesServicio.js' %}"></script>
+
+{% endblock %}

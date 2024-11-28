@@ -1,0 +1,100 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Crear Historia Clinica{% endblock %}
+
+{% block principal %}
+<main class="background-image">
+    <div class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow border-1">
+                    <div class="container text-center">
+                        <form action="{% url 'crearHistoriaClinica' identificacion=identificacion %}" method="post" class="mt-4">
+                            {% csrf_token %}
+                            <div id="btitulo" class="card mb-4">
+                                <h2 class="text-center">Crear Historia Clínica</h2>
+                            </div>
+                            <h4 class="mt-5 mb-4"><strong>Información del Paciente</strong></h4>
+                            <div class="mb-3">
+                                <label for="nombrePaciente" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombrePaciente" name="nombrePaciente" value="{{ nombre }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellidoPaciente" class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" id="apellidoPaciente" name="apellidoPaciente" value="{{ apellido }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="identificacion" class="form-label">Identificación</label>
+                                <input type="text" class="form-control" id="cedula" name="identificacion" value="{{ identificacion }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="text" class="form-control text-center" id="fechaNacimiento" name="fechaNacimiento" value="{{ fecha_nacimiento }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" value="{{ telefono }}" >
+                            </div>
+
+                            <h4 class="mt-4">Información Médica</h4>
+
+                            <div class="mb-3">
+                                <label for="observaciones" class="form-label">Historial Médico </label>
+                                <textarea class="form-control" id="observaciones" name="observaciones" rows="5" readonly>{{ observaciones_anteriores }}</textarea>
+                            </div>                            
+                            
+                            <div class="mb-3">
+                                <label for="observacionMedica" class="form-label">Anexos Historial Médico</label>
+                                <textarea class="form-control" id="observacionMedica" name="observacionMedica" rows="5"></textarea>
+                            </div>                            
+
+                            <h4 class="mt-4">Información de la Consulta</h4>
+
+                            <div class="mb-3">
+                                <label for="fechaSesion" class="form-label">Fecha de la Sesión</label>
+                                <input type="text" class="form-control text-center" id="fechaSesion" name="fechaSesion" value="{{ fecha_sesion }}" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="motivoConsulta" class="form-label">Motivo de la Consulta</label>
+                                <textarea class="form-control" id="motivoConsulta" name="motivoConsulta" rows="5" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="observacionesNuevas" class="form-label">Observaciones</label>
+                                <textarea class="form-control" id="observacionesNuevas" name="observaciones" rows="5" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="tratamiento">Tratamiento a aplicar:</label>
+                                <select id="tratamiento" name="tratamiento" class="form-control" required>
+                                    <option value="" selected> - Selecciona un tratamiento - </option>  <!-- Opción predeterminada -->
+                                    {% for servicio in servicios %}
+                                        <option value="{{ servicio.id }}">{{ servicio.nombreServicio }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <input type="hidden" name="reserva_id" value="{{ reserva_id }}">
+                            <input type="hidden" name="fecha_reserva" value="{{ fecha_reserva }}">
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success">Crear Historia Clínica</button>
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="{% url 'buscarIdentificacion' %}" class="btn btn-danger">Cancelar</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

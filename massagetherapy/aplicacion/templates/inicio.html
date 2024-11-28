@@ -1,0 +1,75 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block principal %}
+<main class="background-image">
+        <div class="container">
+                <div class="header mb-4 mt-5 text-center">
+                        <h1 class="display-4"><strong>¡Bienvenido a tu Espacio de Bienestar!</strong></h1>
+                        <p class="lead">El lugar donde tu bienestar es nuestra prioridad. Descubre nuestros servicios
+                                exclusivos diseñados para revitalizar cuerpo y mente.</p>
+                </div>
+
+                <div class="card mt-5 p-4 shadow-sm">
+                        <h2 class="text-center">Nuestros Planes Especiales</h2>
+                        <p class="text-center">Te ofrecemos una gama de planes personalizados que se adaptan
+                                perfectamente a tus necesidades. Desde sesiones individuales hasta suscripciones
+                                mensuales, donde podrás disfrutar de masajes regulares a precios exclusivos.</p>
+                        <ul>
+                                <p><strong>Plan Individual:</strong> Ideal para aquellos que desean una experiencia
+                                        única de relajación o tratamiento.</p>
+                                <p><strong>Plan Semanal:</strong> Perfecto para quienes buscan mantener un equilibrio
+                                        constante entre cuerpo y mente.</p>
+                                <p><strong>Plan Mensual VIP:</strong> Accede a nuestras terapias premium con descuentos
+                                        especiales y atención preferencial.</p>
+                        </ul>
+                </div>
+
+                <div class="card grey mt-5 p-4 shadow-sm">
+                        <h2 class="text-center">Nuestros Servicios Exclusivos</h2>
+                        <p class="text-center">En nuestro centro, ofrecemos una variedad de servicios diseñados para
+                                proporcionarte una experiencia completa de relajación y bienestar. Todos nuestros
+                                tratamientos son realizados por terapeutas certificados.</p>
+                        <ul>
+                                <p><strong>Masajes Terapéuticos:</strong> Alivia tensiones y mejora tu salud física con
+                                        nuestras técnicas especializadas.</p>
+                                <p><strong>Masajes de Relajación:</strong> Desconéctate del estrés diario con sesiones
+                                        de profunda relajación.</p>
+                        </ul>
+                        <div class="text-center mt-3">
+                                <a class="btn btn-success btn-lg" href="/reservas">Reserva tu sesión ahora</a>
+                        </div>
+                </div>
+
+                <div class="card mt-5 p-4 shadow-sm">
+                        <h2 class="text-center">Masajes Especializados</h2>
+                        <p class="text-center">Nuestros masajes están diseñados para atender tus necesidades
+                                específicas. Ya sea para aliviar dolores crónicos, reducir estrés o simplemente
+                                desconectar, nuestros profesionales están listos para brindarte un tratamiento de
+                                primera calidad.</p>
+                                <p><strong>Proximamente...</strong></p>
+                        <ul>
+                                <p><strong>Masaje Deportivo:</strong> Enfocado en deportistas para mejorar el
+                                        rendimiento y acelerar la recuperación.</p>
+                                <p><strong>Masaje Sueco:</strong> El favorito para relajación profunda y tratamiento de
+                                        músculos tensos.</p>
+                                <p><strong>Masaje con Piedras Calientes:</strong> Perfecto para eliminar las
+                                        contracturas y revitalizar energías.</p>
+                        </ul>
+                </div>
+
+                <div class="card grey mt-5 p-4 shadow-sm">
+                        <h2 class="text-center">¿Por qué Elegirnos?</h2>
+                        <p class="text-center">Nos destacamos por nuestra atención personalizada y por ofrecer una
+                                experiencia inigualable desde el momento en que reservas tu sesión. Con solo un clic,
+                                puedes acceder a nuestros mejores terapeutas, optimizar tu tiempo y cuidar tu bienestar
+                                sin complicaciones.</p>
+                        <div class="text-center mt-3">
+                                <a class="btn btn-success btn-lg" href="/reservas">¡No esperes más!</a>
+                        </div>
+                </div>
+        </div>
+</main>
+{% endblock %}

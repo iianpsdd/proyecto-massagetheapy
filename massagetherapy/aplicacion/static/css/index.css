@@ -1,0 +1,462 @@
+/* Código de colores
+    Azul Claro (Color Principal):
+        RGB: RGB(173, 216, 230)
+        Hexadecimal: #ADD8E6
+
+    Blanco:
+        RGB: RGB(255, 255, 255)
+        Hexadecimal: #FFFFFF
+
+    Verde Menta o Verde Agua:
+        RGB: RGB(152, 251, 152)
+        Hexadecimal: #98FB98
+
+    Azul Oscuro (para Botones - excepto CTA):
+        RGB: RGB(0, 0, 139)
+        Hexadecimal: #00008B
+*/
+
+/*---------------------------------------------*/
+
+/* Fondo oscuro detrás de la alerta */
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro opaco */
+    z-index: 1049; /* Debajo de la alerta */
+    opacity: 0; /* Inicialmente invisible */
+    pointer-events: none; /* Ignorar clics mientras no sea visible */
+    transition: opacity 0.3s ease; /* Animación para mostrar y ocultar */
+}
+
+/* Mostrar el overlay */
+.alert-container + .alert-overlay {
+    opacity: 1; /* Hacer visible el fondo */
+    pointer-events: auto; /* Permitir interacción */
+}
+
+/* Estilos de las alertas */
+.alert-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050; /* Por encima del overlay */
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.alert {
+    pointer-events: auto;
+}
+
+/*------mensajes de servicio---------------------*/
+
+/* Fondo oscuro detrás de la alerta (overlay) */
+.alert-overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro opaco */
+    z-index: 1049; /* Debajo de la alerta */
+    opacity: 1; /* Inicialmente visible */
+    pointer-events: none; /* Ignorar clics mientras no sea visible */
+    transition: opacity 0.3s ease; /* Animación para mostrar y ocultar */
+}
+
+/* Contenedor de la alerta */
+.alert-container2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050; /* Por encima del overlay */
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* Estilo de la alerta */
+.alert2 {
+    pointer-events: auto;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    color: black;
+    text-align: center;
+    width: 100%;
+}
+
+/* Botones dentro de la alerta */
+.alert2 button {
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Botón "Aceptar" (verde) */
+.alert2 button.aceptar {
+    background-color: green;
+}
+
+.alert2 button.aceptar:hover {
+    background-color: darkgreen;
+}
+
+/* Botón "Cancelar" (rojo) */
+.alert2 button.cancelar {
+    background-color: #025add;;
+}
+
+.alert2 button.cancelar:hover {
+    background-color: darkblue;
+}
+
+
+
+
+/*---------------------------------------------*/
+.modal-content {
+    background-color: rgb(90 211 186) !important;
+    color: #fff !important;
+    border: 2px solid #007BFF !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    color: #007BFF;
+}
+
+.close {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #007BFF !important;
+}
+
+.form-control {
+    border: 1px solid #007BFF !important;
+}
+
+.form-control:focus {
+    background-color: #0dd2e0 !important;
+    border: 1px solid #0d88e0 !important;
+    color: #fff;
+}
+
+.btnLoginMod,
+.btnRegistrar {
+    border: none;
+    border-radius: 5px !important;
+    font-weight: bold;
+}
+
+.btnLoginMod:hover,
+.btnRegistrar:hover {
+    background-color: #0056b3;
+}
+
+.modal-content a {
+    color: #007BFF;
+    text-decoration: underline !important;
+    transition: color 0.3s !important;
+}
+
+.modal-content a:hover {
+    color: #0056b3 !important;
+}
+
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal.slide-up .modal-dialog {
+    animation: slideInUp 0.3s forwards !important;
+}
+
+/*----------------------------------------------------------------*/
+
+#body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: rgb(90 211 186);
+    width: 100%;
+}
+
+#navCont {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#logo {
+    height: 10vh;
+}
+
+#logoCont {
+    margin-left: 10px;
+    margin-right: 300px;
+}
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: rgb(90 211 186);
+
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.barra {
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: rgb(90 211 186);
+    height: 50px;
+    text-align: center;
+    align-content: space-around;
+    justify-content: center;
+}
+
+.seccionGeneral {
+    display: flex;
+    background-color: rgb(236 235 229);
+    flex-direction: column;
+}
+
+.seccionGeneral #contenido1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#seccion2 {
+    margin: 10px;
+}
+
+.container {
+    background-color: rgb(91 83 35);
+    width: 100%;
+}
+
+#btnSolicitar {
+    margin: 4px;
+}
+
+#img1 {
+    width: 60%;
+    border: solid black 1px;
+}
+
+.art1 {
+    text-align: center;
+    margin: 8px;
+}
+
+#contenido2 {
+    display: flex;
+    justify-content: space-around;
+}
+
+#contenido4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cuadros {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    margin: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.cuadroText {
+    width: 60%;
+}
+
+.cuadroText2 {
+    width: 60%;
+    text-align: center;
+}
+
+.imgCuadros {
+    width: 100%;
+    height: 100%;
+    border: solid black 1px;
+
+}
+
+#art2 {
+    margin-right: 90px;
+    width: 180em;
+}
+
+.img1sec2 {
+    display: block;
+    width: 70%;
+    height: 60%;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: solid black 1px;
+
+}
+
+.titu {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.cont2 {
+    width: 800px;
+}
+
+#iconoFinal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#btnInsta {
+
+    background: #f09433;
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f09433', endColorstr='#bc1888', GradientType=1);
+    border-color: #bc1888;
+    background-color: #bc1888;
+
+}
+
+#btnfacebook {
+    color: #fff;
+    border-color: blue;
+    background-color: blue;
+}
+
+#btnWpp {
+    color: #fff;
+    background:
+        linear-gradient(#25d366, #25d366) 14% 84%/16% 16% no-repeat,
+        radial-gradient(#25d366 60%, transparent 0);
+    border-color: #25d366;
+    background-color: #25d366;
+
+}
+
+#btnTwitter {
+    background-color: rgb(48, 182, 243);
+}
+
+.textCont2 {
+    text-align: center;
+}
+
+.iconMarg {
+    margin: 10px;
+}
+
+.iconMarg2 {
+    margin: 5px;
+    color: black;
+}
+
+.foot {
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+.contenido3 {
+    display: flex;
+    word-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px;
+
+}
+
+.contenido5 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#contenido6 {
+    margin-bottom: 10px;
+}
+
+.colorfoot {
+    color: white;
+}
+
+#maps {
+    width: 32vh;
+    border: solid black 1px;
+
+}
+
+#correo {
+    margin-top: 10px;
+}
+
+#alertContainer {
+    position: fixed;
+    top: 30%;
+    left: 43%;
+    transform: translateX(-50%,-50%);
+}
+
+#fotoT {
+    width: 100px;  /* Ajusta el ancho de la foto */
+    height: 100px; /* Ajusta el alto de la foto */
+    border-radius: 50%;  /* Hace que la foto sea circular */
+    object-fit: cover;  /* Asegura que la foto mantenga su proporción dentro del contenedor */
+    display: block;  /* Esto asegura que se comporte como un bloque, alineado correctamente */
+    margin: 0 auto 20px; /* Centramos la imagen y añadimos un margen inferior */
+}
+
+#colocanvas{
+    background-color: rgb(90 211 186);
+}

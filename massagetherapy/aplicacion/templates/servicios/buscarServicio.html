@@ -1,0 +1,66 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+{% block titulo %}Inicio{% endblock %}
+{% block principal %}
+<main class="background-image">
+  <div class="container mt-5 mb-4">
+    <div id="btitulo" class="card mb-4">
+      <h2 class="text-center">Buscar Servicio</h2>
+    </div>
+
+    <div class="text-center mt-4 mb-4">
+      <a href="{% url 'registrarServicio' %}" class="btn btn-success">Registrar Servicio</a>
+    </div>
+
+    <div class="mb-4">
+      <div class="row justify-content-center">
+        <div id="btitulo" class="card border-1 p-3">
+          <form class="d-flex" role="search" action="{% url 'busquedaServicio' %}" method="post">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Buscar por nombre de Servicio o Especialista"
+              aria-label="Search" name="servicios_buscar">
+            <button class="btn btn-success mx-2" type="submit">Buscar</button>
+            <a href="{% url 'buscarServicio' %}" class="btn btn-danger">Regresar</a>
+          </form>
+        </div>
+
+        <div class="tablaServicios table-responsive mt-4">
+          <table id="tablaServicios" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Nombre del Servicio</th>
+                <th>Descripción</th>
+                <th>Especialista</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaServiciosBody">
+              {% for servicio in servicios %}
+              <tr id="servicio-{{ servicio.id }}">
+                <td>{{ servicio.nombreServicio }}</td>
+                <td class="descripcion-pequena">{{ servicio.descripcion }}</td>
+                <td>{{ servicio.nombreEspecialista }}</td>
+                <td>${{ servicio.precio }}</td>
+                <td>
+                  <a href="{% url 'editarServicio' servicio.id %}" class="btn btn-warning" title="Editar"><i
+                      class="bi bi-pencil-square">Editar</i></a>
+                  <a href="#" class="btn btn-danger" title="Eliminar" onclick="eliminarServicio('{{ servicio.id }}')"><i
+                      class="bi bi-trash">Eliminar</i></a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center">No hay servicios disponibles.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>          
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="{% static 'js/funcionesServicioMenu.js' %}"></script>
+{% endblock %}

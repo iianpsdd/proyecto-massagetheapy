@@ -1,0 +1,65 @@
+{% extends 'baseAdmin.html' %}
+{% load static %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block principal %}
+<main Class="background-image">
+
+    <section>
+        <div class="container mt-5">
+            <div id="btitulo" class="card mb-4">
+                <h2 class="text-center">Mis Reservas</h2>
+            </div>
+            <div class="container mt-5">
+
+                <div class="row" id="reservasContainer">
+                    {% for reserva in reservas %}
+                    <div id="c2reserva" class="card" {% if reserva.estado == 'C' or reserva.estado == 'N' or reserva.estado == 'A' %}hidden{% endif %}>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ reserva.servicio.nombreServicio }}</h5>
+                            <p class="card-text">{{ reserva.servicio.descripcion }}</p>
+                            <p class="card-text"><strong>Especialista:</strong> {{ reserva.servicio.nombreEspecialista }}</p>
+                            <p class="card-text"><strong>Precio:</strong> ${{ reserva.servicio.precio }}</p>
+                            <p class="card-text"><strong>Fecha de reserva:</strong> {{ reserva.fecha|date:"d/m/Y" }}</p>
+                            <a class="btn btn-danger eliminar-reserva" data-id="{{ reserva.id }}">Eliminar</a>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                </div>
+            </div>
+    </section>
+
+
+</main>
+<script type="text/javascript">
+    var csrftoken = "{{ csrf_token }}";  
+
+    function confirmarCita(reservaId, usernameUsuario, fechaReserva) {
+    if (confirm('¿Estás seguro de que deseas confirmar esta cita?')) {
+        $.ajax({
+            url: '/confirmar_reserva/',
+            type: 'POST',
+            data: {
+                'reserva_id': reservaId,
+                'csrfmiddlewaretoken': csrftoken // Asegúra de que csrftoken esté definido
+            },
+            success: function () {
+                console.log("Usuario que se está enviando: " + usernameUsuario);
+                // Redirigir a buscarHistoriaClinica usando el username del usuario de la reserva
+                window.location.href = '/buscarHistoriaClinica/?identificacion=' + usernameUsuario + '&reserva_id=' + reservaId + '&fecha_reserva=' + fechaReserva;
+            },
+            error: function (xhr) {
+                console.error('Error al confirmar la reserva:', xhr.responseJSON.error);
+                alert('Error al confirmar la cita: ' + xhr.responseJSON.error);
+            }
+        });
+    }
+}
+
+</script>
+
+
+{% endblock %}
+
