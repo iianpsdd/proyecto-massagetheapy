@@ -52,14 +52,31 @@
             <input type="hidden" name="identificacion" value="{{ identificacion_consultada }}">
             <input type="hidden" name="reserva_id" id="reserva_id_mostrar" value="{{ reserva_id }}">
             <input type="hidden" name="fecha_reserva" id="fecha_reserva_mostrar" value="{{ fecha_reserva }}">
-            {% if mostrar_todas %}
-            <!-- Si ya esta mostrando todas, mostrar el botón "Mostrar última" -->
-            <button type="submit" name="mostrar_todas" value="false" class="btn btn-danger mb-3">Última historia</button>
-            {% else %}
-            <!-- Si NO esta mostrando todas, mostrar el botón "Mostrar todas" solo si el paciente existe -->
-            <button type="submit" name="mostrar_todas" value="true" class="btn btn-warning mb-3">Mostrar todas</button>
+        
+            <div class="d-flex justify-content-center mb-3">
+                {% if mostrar_todas %}
+                    <!-- Si ya está mostrando todas, mostrar el botón "Mostrar última" -->
+                    <button type="submit" name="mostrar_todas" value="false" class="btn btn-danger">
+                        Última historia
+                    </button>
+                {% else %}
+                    <!-- Si NO está mostrando todas, mostrar el botón "Mostrar todas" solo si el paciente existe -->
+                    <button type="submit" name="mostrar_todas" value="true" class="btn btn-warning">
+                        Mostrar todas
+                    </button>
+                {% endif %}
+            </div>
+        
+            <!-- Botón "Crear Historia Clínica" debajo de los botones de mostrar -->
+            {% if rol_usuario == 'ADMIN' or rol_usuario == 'ESPEC' %}
+                <div class="d-flex justify-content-center mb-3">
+                    <a href="{% url 'crearHistoriaClinica' identificacion=identificacion_consultada %}" id="crear-historia-clinica" class="btn btn-success">
+                        Crear Historia Clínica
+                    </a>
+                </div>
             {% endif %}
         </form>
+        
 
         <!-- Mostrar el mensaje y botón solo si el paciente tiene identificación y no tiene historias clínicas -->
         {% if historias_clinicas|length == 0 and identificacion_consultada %}
